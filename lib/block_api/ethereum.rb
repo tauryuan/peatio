@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module BlockAPI
-  class ETH < Base
+  class Ethereum < Base
     def initialize(*)
       super
       @json_rpc_call_id  = 0

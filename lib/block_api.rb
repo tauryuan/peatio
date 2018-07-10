@@ -7,17 +7,16 @@ module BlockAPI
 
   class << self
     #
-    # Returns API client for given currency code.
+    # Returns API client for given blockchain key.
     #
-    # @param code [String, Symbol]
-    #   The currency code. May be uppercase or lowercase.
+    # @param key [String, Symbol]
+    #   The blockchain key.
     # @return [BaseAPI]
-    def [](code)
-      currency = Currency.find(code)
-      if currency.try(:api_client).present?
-        "BlockAPI::#{currency.api_client.camelize}"
-      else
-        "BlockAPI::#{code.upcase}"
+    def [](key)
+      binding.pry
+      blockchain = Blockchain.find_by_key(key)
+      if blockchain.try(:client).present?
+        "BlockAPI::#{blockchain.client.capitalize}"
       end.constantize.new(currency)
     end
   end
