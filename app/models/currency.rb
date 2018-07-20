@@ -186,7 +186,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20180720165705
 #
 # Table name: currencies
 #
@@ -202,6 +202,7 @@ end
 #  precision            :integer          default(8), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  icon_url             :string(255)
 #
 # Indexes
 #
