@@ -122,7 +122,7 @@ module Client
     def permit_transaction(issuer, recipient)
       json_rpc(:personal_unlockAccount, [normalize_address(issuer.fetch(:address)), issuer.fetch(:secret), 5]).tap do |response|
         unless response['result']
-          raise CoinAPI::Error, \
+          raise Client::Error, \
             "#{currency.code.upcase} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} is not permitted."
         end
       end
