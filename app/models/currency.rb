@@ -68,10 +68,6 @@ class Currency < ActiveRecord::Base
     end
   end
 
-  def api
-    CoinAPI[code]
-  end
-
   # Allows to dynamically check value of code:
   #
   #   code.btc? # true if code equals to "btc".
