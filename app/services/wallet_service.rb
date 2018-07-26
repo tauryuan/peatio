@@ -12,17 +12,22 @@ module WalletService
     # @param wallet [String, Symbol]
     #   The wallet record in database.
     def [](wallet)
-      "WalletService::#{wallet.gateway.fetch('client').capitalize}"
+      wallet_service = wallet.gateway.fetch('client').capitalize
+      "WalletService::#{wallet_service}"
         .constantize
-        .new(wallet.gateway.fetch('options'))
+        .new(wallet.gateway)
+    rescue NameError
+      raise Error, "Wrong WalletService name #{wallet_service}"
     end
   end
 
   class Base
 
-    attr_reader :blockchain, :client
+    def initialize(gateway)
+      @client = WalletClient[gateway]
+    end
 
-    def offload_deposit!(deposit)
+    def collect_deposit!(deposit)
       method_not_implemented
     end
 

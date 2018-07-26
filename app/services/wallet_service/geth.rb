@@ -2,9 +2,7 @@
 # frozen_string_literal: true
 
 module WalletService
-  class Geth
-    def initialize(options)
+  class Geth < Base
 
-    end
   end
 end
