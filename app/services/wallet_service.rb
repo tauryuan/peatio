@@ -15,7 +15,7 @@ module WalletService
       wallet_service = wallet.gateway.fetch('client').capitalize
       "WalletService::#{wallet_service}"
         .constantize
-        .new(wallet.gateway)
+        .new(wallet)
     rescue NameError
       raise Error, "Wrong WalletService name #{wallet_service}"
     end
@@ -23,8 +23,8 @@ module WalletService
 
   class Base
 
-    def initialize(gateway)
-      @client = WalletClient[gateway]
+    def initialize(wallet)
+      @client = WalletClient[wallet]
     end
 
     def collect_deposit!(deposit)

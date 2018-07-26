@@ -9,13 +9,13 @@ module WalletClient
     #
     # Returns API client for given gateway options hash.
     #
-    # @param gateway [String, Symbol]
-    #   The gateway options hash.
+    # @param wallet [String, Symbol]
+    #   The wallet object.
     # @return [BaseAPI]
-    def [](gateway)
-      "WalletClient::#{gateway.fetch('client').capitalize}"
+    def [](wallet)
+      "WalletClient::#{wallet.gateway.fetch('client').capitalize}"
         .constantize
-        .new(gateway.fetch('options'))
+        .new(wallet)
     end
   end
 
@@ -26,10 +26,10 @@ module WalletClient
     # Returns the blockchain.
     #
     # @return [gateway]
-    attr_reader :gateway_options
+    attr_reader :wallet
 
-    def initialize(gateway_options)
-      @gateway_options = gateway_options
+    def initialize(wallet)
+      @wallet = wallet
     end
   end
 end
