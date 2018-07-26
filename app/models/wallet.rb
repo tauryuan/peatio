@@ -11,7 +11,7 @@ class Wallet < ActiveRecord::Base
   validates :status, inclusion: { in: %w[active disabled] }
   validates :kind, inclusion: { in: %w[hot warm cold deposit] }
   validates :nsig, numericality: { greater_than_or_equal_to: 1, only_integer: true }
-  validates :max_balance, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :max_balance, numericality: { greater_than_or_equal_to: 0}
   # FIXME: add json validation.
   validates :gateway, length: { maximum: 1000 }
 
