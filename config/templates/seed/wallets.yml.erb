@@ -6,9 +6,9 @@
   max_balance:  0
   status:       active
   gateway:
-    client: ETH
+    client: geth
     options:
-      json_rpc_endpoint: http://user:password@127.0.0.1:8545
+      uri: http://user:password@127.0.0.1:8545
 
 - name:         Ethereum Hot Wallet
   currency_id:  eth
@@ -18,9 +18,9 @@
   max_balance:  100
   status:       active
   gateway:
-    client: ETH
+    client: geth
     options:
-      json_rpc_endpoint: http://user:password@127.0.0.1:8545
+      uri: http://user:password@127.0.0.1:8545
 
 - name:         Ethereum Warm Wallet
   currency_id:  eth
@@ -30,9 +30,9 @@
   max_balance:  100
   status:       active
   gateway:
-    client: ETH
+    client: geth
     options:
-      json_rpc_endpoint: http://user:password@127.0.0.1:8545
+      uri: http://user:password@127.0.0.1:8545
 
 - name:         Bitcoin Deposit Wallet
   currency_id:  btc
@@ -42,9 +42,9 @@
   max_balance:  0
   status:       active
   gateway:
-    client: BTC
+    client: bitcoind
     options:
-      json_rpc_endpoint: http://user:password@127.0.0.1:18332
+      uri: http://user:password@127.0.0.1:18332
 
 - name:         Bitcoin Hot Wallet
   currency_id:  btc
@@ -54,7 +54,7 @@
   max_balance:  5
   status:       active
   gateway:
-    client: BitGo
+    client: bitgo
     options:
       bitgo_test_net:              on
       bitgo_wallet_id:             ~
@@ -71,7 +71,7 @@
   max_balance:  5
   status:       active
   gateway:
-    client: BitGo
+    client: bitgo
     options:
       bitgo_test_net:              on
       bitgo_wallet_id:             ~

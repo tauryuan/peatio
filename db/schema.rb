@@ -191,15 +191,15 @@ ActiveRecord::Schema.define(version: 20180726110440) do
   create_table "wallets", force: :cascade do |t|
     t.string   "currency_id", limit: 5
     t.string   "name",        limit: 64
-    t.string   "address",     limit: 255,                 null: false
-    t.string   "kind",        limit: 32,                  null: false
+    t.string   "address",     limit: 255,                                           null: false
+    t.string   "kind",        limit: 32,                                            null: false
     t.integer  "nsig",        limit: 4
-    t.integer  "max_balance", limit: 4,    default: 0,    null: false
+    t.string   "gateway",     limit: 1000,                           default: "{}", null: false
+    t.decimal  "max_balance",              precision: 32, scale: 16, default: 0.0,  null: false
     t.integer  "parent",      limit: 4
     t.string   "status",      limit: 32
-    t.string   "gateway",     limit: 1000, default: "{}", null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
   end
 
   create_table "withdraws", force: :cascade do |t|

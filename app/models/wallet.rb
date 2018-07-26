@@ -1,6 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+
 class Wallet < ActiveRecord::Base
   serialize :gateway, JSON
 
@@ -11,6 +12,7 @@ class Wallet < ActiveRecord::Base
   validates :kind, inclusion: { in: %w[hot warm cold deposit] }
   validates :nsig, numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :max_balance, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  # FIXME: add json validation.
   validates :gateway, length: { maximum: 1000 }
 
   scope :active, -> { where(status: 'active') }
@@ -33,10 +35,10 @@ end
 #  address     :string(255)      not null
 #  kind        :string(32)       not null
 #  nsig        :integer
-#  max_balance :integer          default(0), not null
+#  gateway     :string(1000)     default({}), not null
+#  max_balance :decimal(32, 16)  default(0.0), not null
 #  parent      :integer
 #  status      :string(32)
-#  gateway     :string(1000)     default({}), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
