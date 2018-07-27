@@ -16,8 +16,9 @@ class Wallet < ActiveRecord::Base
   # FIXME: add json validation.
   validates :gateway, length: { maximum: 1000 }
 
-  scope :active, -> { where(status: 'active') }
-  scope :deposit, -> { where(kind: 'deposit') }
+  scope :active, -> { where(status: :active) }
+  scope :deposit, -> { where(kind: :deposit) }
+  scope :withdraw, -> { where.not(kind: :deposit) }
 
   def wallet_url
     if currency.wallet_url_template?

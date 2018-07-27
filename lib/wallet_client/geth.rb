@@ -17,8 +17,32 @@ module WalletClient
       end
     end
 
-    def normalize_address(address)
-      address.downcase
+    def create_withdrawal!(issuer, recipient, amount, options = {})
+      permit_transaction(issuer, recipient)
+      json_rpc(
+          :eth_sendTransaction,
+          [{
+               from:     normalize_address(issuer.fetch(:address)),
+               to:       normalize_address(recipient.fetch(:address)),
+               value:    '0x' + amount.to_s(16),
+               gas:      options.key?(:gas_limit) ? '0x' + options[:gas_limit].to_s(16) : nil,
+               gasPrice: options.key?(:gas_price) ? '0x' + options[:gas_price].to_s(16) : nil
+           }.compact]
+      ).fetch('result').yield_self do |txid|
+        raise WalletClient::Error, \
+          "#{wallet.name} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} failed." \
+            unless valid_txid?(normalize_txid(txid))
+        normalize_txid(txid)
+      end
+    end
+
+    def permit_transaction(issuer, recipient)
+      json_rpc(:personal_unlockAccount, [normalize_address(issuer.fetch(:address)), issuer.fetch(:secret), 5]).tap do |response|
+        unless response['result']
+          raise WalletClient::Error, \
+            "#{wallet.name} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} is not permitted."
+        end
+      end
     end
 
     protected
@@ -42,6 +66,22 @@ module WalletClient
       response = JSON.parse(response.body)
       response['error'].tap { |error| raise Error, error.inspect if error }
       response
+    end
+
+    def normalize_address(address)
+      address.downcase
+    end
+
+    def normalize_txid(txid)
+      txid.downcase
+    end
+
+    def valid_address?(address)
+      address.to_s.match?(/\A0x[A-F0-9]{40}\z/i)
+    end
+
+    def valid_txid?(txid)
+      txid.to_s.match?(/\A0x[A-F0-9]{64}\z/i)
     end
   end
 end

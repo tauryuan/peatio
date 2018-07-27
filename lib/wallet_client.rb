@@ -31,5 +31,13 @@ module WalletClient
     def initialize(wallet)
       @wallet = wallet
     end
+
+    def normalize_address(address)
+      address
+    end
+
+    def normalize_txid(txid)
+      txid
+    end
   end
 end

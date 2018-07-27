@@ -23,7 +23,10 @@ module WalletService
 
   class Base
 
+    attr_accessor :wallet, :client
+
     def initialize(wallet)
+      @wallet = wallet
       @client = WalletClient[wallet]
     end
 
