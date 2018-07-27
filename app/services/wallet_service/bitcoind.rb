@@ -8,5 +8,6 @@ module WalletService
       @client.create_address!(options)
     end
 
+
   end
 end
