@@ -14,6 +14,13 @@ module WalletClient
       address
     end
 
+    def create_withdrawal!(issuer, recipient, amount, options = {})
+      json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
+      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount])
+          .fetch('result')
+          .yield_self(&method(:normalize_txid))
+    end
+
     protected
 
     def connection

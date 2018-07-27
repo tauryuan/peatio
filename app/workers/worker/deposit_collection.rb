@@ -5,7 +5,6 @@ module Worker
   class DepositCollection
     def process(payload)
       Rails.logger.info { "Received request for deposit collection id: #{payload['id']}." }
-
       deposit = Deposit.find_by_id(payload['id'])
 
       unless deposit

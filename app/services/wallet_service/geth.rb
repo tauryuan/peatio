@@ -4,6 +4,8 @@
 module WalletService
   class Geth < Base
 
+    DEFAULT_GAS_FEES_LIMIT = 30_000
+
     def create_address(options = {})
       client.create_address!(options)
     end
@@ -11,9 +13,9 @@ module WalletService
     def collect_deposit!(deposit, options={})
       destination_address = destination_wallet(deposit).address
       if deposit.currency.code.eth?
-        collect_eth_deposit!(deposit, destination_address)
+        collect_eth_deposit!(deposit, destination_address, options)
       else
-        collect_erc20_deposit!(deposit, destination_address)
+        collect_erc20_deposit!(deposit, destination_address, options)
       end
     end
 
@@ -21,13 +23,13 @@ module WalletService
 
     def collect_eth_deposit!(deposit, destination_address, options={})
       # Default values for Ethereum tx fees.
-      options = { gas_limit: 30000, gas_price: 1 }.merge options
+      options = { gas_limit: DEFAULT_GAS_FEES_LIMIT }.merge options
 
       # We can't collect all funds we need to subtract gas fees.
-      amount = deposit.amount_to_base_unit! - options[:gas_limit] * options[:gas_price]
+      amount = deposit.amount_to_base_unit! - options[:gas_limit]
       pa = deposit.account.payment_address
 
-      client.create_withdrawal!(
+      client.create_eth_withdrawal!(
         { address: pa.address, secret: pa.secret },
         { address: destination_address},
         amount,
@@ -35,8 +37,18 @@ module WalletService
       )
     end
 
-    def collect_erc20_deposit!(deposit, destination_address)
-      method_not_implemented
+    def collect_erc20_deposit!(deposit, destination_address, options={})
+      pa = deposit.account.payment_address
+
+      # Deposit eth for paying fees for contract execution.
+      deposit_eth_for_fees(pa.address)
+
+      client.create_erc20_withdrawal!(
+          { address: pa.address, secret: pa.secret },
+          { address: destination_address},
+          deposit.amount_to_base_unit!,
+          options
+      )
     end
 
     def destination_wallet(deposit)
@@ -45,7 +57,25 @@ module WalletService
       Wallet
         .active
         .withdraw
-        .find_by(blockchain_key: deposit.currency.blockchain_key, kind: :hot )
+        .find_by(blockchain_key: deposit.currency.blockchain_key, kind: :hot)
+    end
+
+    def eth_fees_wallet
+      Wallet
+        .active
+        .withdraw
+        .find_by(currency_id: :eth, kind: :hot)
+    end
+
+    def deposit_eth_for_fees(destination_address)
+      fees_wallet = eth_fees_wallet
+
+      client.create_eth_withdrawal!(
+          { address: fees_wallet.address, secret: fees_wallet.secret },
+          { address: destination_address},
+          DEFAULT_GAS_FEES_LIMIT,
+          options
+      )
     end
   end
 end
