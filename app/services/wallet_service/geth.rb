@@ -21,7 +21,7 @@ module WalletService
 
     def collect_eth_deposit!(deposit, destination_address, options={})
       # Default values for Ethereum tx fees.
-      options = { gas_limit: 21000, gas_price: 1 }.merge options
+      options = { gas_limit: 30000, gas_price: 1 }.merge options
 
       # We can't collect all funds we need to subtract gas fees.
       amount = deposit.amount_to_base_unit! - options[:gas_limit] * options[:gas_price]
