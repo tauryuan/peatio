@@ -4,7 +4,8 @@
 module WalletService
   class Geth < Base
 
-    DEFAULT_GAS_FEES_LIMIT = 30_000
+    DEFAULT_ETH_FEE = { gas_limit: 30_000, gas_price: 10_000_000_000 }.freeze
+    DEFAULT_ERC20_FEE_VALUE =  { gas_limit: 100_000, gas_price: 10_000_000_000 }.freeze
 
     def create_address(options = {})
       client.create_address!(options)
@@ -23,12 +24,11 @@ module WalletService
 
     def collect_eth_deposit!(deposit, destination_address, options={})
       # Default values for Ethereum tx fees.
-      options = { gas_limit: DEFAULT_GAS_FEES_LIMIT }.merge options
+      options = DEFAULT_ETH_FEE.merge options
 
       # We can't collect all funds we need to subtract gas fees.
-      amount = deposit.amount_to_base_unit! - options[:gas_limit]
+      amount = deposit.amount_to_base_unit! - options[:gas_limit] * options[:gas_price]
       pa = deposit.account.payment_address
-
       client.create_eth_withdrawal!(
         { address: pa.address, secret: pa.secret },
         { address: destination_address},
@@ -40,14 +40,13 @@ module WalletService
     def collect_erc20_deposit!(deposit, destination_address, options={})
       pa = deposit.account.payment_address
 
-      # Deposit eth for paying fees for contract execution.
-      deposit_eth_for_fees(pa.address)
+      deposit_eth_for_fees(pa.address) # if client.load_eth_balance < MAX_ERC20_FEES_VALUE
 
       client.create_erc20_withdrawal!(
           { address: pa.address, secret: pa.secret },
-          { address: destination_address},
+          { address: destination_address },
           deposit.amount_to_base_unit!,
-          options
+          options.merge(contract_address: deposit.currency.erc20_contract_address )
       )
     end
 
@@ -67,14 +66,15 @@ module WalletService
         .find_by(currency_id: :eth, kind: :hot)
     end
 
-    def deposit_eth_for_fees(destination_address)
+    def deposit_eth_for_fees(destination_address, options={})
       fees_wallet = eth_fees_wallet
+      options = DEFAULT_ERC20_FEE_VALUE.merge options
+      amount = options[:gas_limit] * options[:gas_price]
 
       client.create_eth_withdrawal!(
           { address: fees_wallet.address, secret: fees_wallet.secret },
           { address: destination_address},
-          DEFAULT_GAS_FEES_LIMIT,
-          options
+          amount
       )
     end
   end

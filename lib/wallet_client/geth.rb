@@ -48,7 +48,7 @@ module WalletClient
           :eth_sendTransaction,
           [{
                from: normalize_address(issuer.fetch(:address)),
-               to:   contract_address(currency),
+               to:   options[:contract_address],
                data: data
            }]
       ).fetch('result').yield_self do |txid|
@@ -69,6 +69,18 @@ module WalletClient
     end
 
     protected
+
+    def abi_encode(method, *args)
+      '0x' + args.each_with_object(Digest::SHA3.hexdigest(method, 256)[0...8]) do |arg, data|
+        data.concat(arg.gsub(/\A0x/, '').rjust(64, '0'))
+      end
+    end
+
+    def abi_explode(data)
+      data = data.gsub(/\A0x/, '')
+      { method:    '0x' + data[0...8],
+        arguments: data[8..-1].chars.in_groups_of(64, false).map { |group| '0x' + group.join } }
+    end
 
     def connection
       Faraday.new(@json_rpc_endpoint).tap do |connection|

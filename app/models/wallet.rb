@@ -25,6 +25,10 @@ class Wallet < ActiveRecord::Base
       currency.wallet_url_template.gsub('#{address}', address)
     end
   end
+
+  def secret
+    gateway.dig('options','secret')
+  end
 end
 
 # == Schema Information
