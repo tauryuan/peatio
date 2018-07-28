@@ -40,7 +40,6 @@ module WalletService
     def collect_erc20_deposit!(deposit, destination_address, options={})
       pa = deposit.account.payment_address
 
-      deposit_eth_for_fees(pa.address) # if client.load_eth_balance < MAX_ERC20_FEES_VALUE
 
       client.create_erc20_withdrawal!(
           { address: pa.address, secret: pa.secret },
@@ -48,6 +47,11 @@ module WalletService
           deposit.amount_to_base_unit!,
           options.merge(contract_address: deposit.currency.erc20_contract_address )
       )
+    rescue WalletClient::Error => e
+      # In case of deposit collection failure we need to deposit more fees.
+      # TODO: check if balance less than MAX_ERC20_FEES_VALUE and no pending transactions for this payment address
+      deposit_eth_for_fees(pa.address) # if client.load_eth_balance < MAX_ERC20_FEES_VALUE && no pending transactions for this payment address
+      raise e
     end
 
     def destination_wallet(deposit)
