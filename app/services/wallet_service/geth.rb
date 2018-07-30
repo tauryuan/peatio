@@ -21,6 +21,14 @@ module WalletService
       end
     end
 
+    def build_withdrawal!(withdraw)
+      if withdraw.currency.code.eth?
+        build_eth_withdrawal!(withdraw)
+      else
+        build_erc20_withdrawal!(withdraw)
+      end
+    end
+
     def deposit_collection_fees(deposit, value=DEFAULT_ERC20_FEE_VALUE, options={})
       fees_wallet = eth_fees_wallet
       destination_address = deposit.account.payment_address.address

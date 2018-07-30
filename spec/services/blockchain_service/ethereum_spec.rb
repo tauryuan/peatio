@@ -191,17 +191,17 @@ describe BlockchainService::Ethereum do
       let(:expected_withdrawals) do
         [
           {
-            sum:  '0x14d1120d7b160000'.hex.to_d / currency.base_factor,
+            amount:  '0x14d1120d7b160000'.hex.to_d / currency.base_factor,
             rid:  '0xb3ebc7b5b631e8d145f383c8cd07f0f00dd56a30',
             txid: '0x643ff4da78faca97454766d9c2a1d455c19083591c87013740acc60286d6dd80'
           },
           {
-            sum:  '0xde0b6b3a7640000'.hex.to_d / currency.base_factor,
+            amount:  '0xde0b6b3a7640000'.hex.to_d / currency.base_factor,
             rid:  '0xb3ebc7b5b631e8d145f383c8cd07f0f00dd56a30',
             txid: '0x5d7f014e7f64c1a8010e64e1f6b6d52efa9c78bb113615bf97d60f30c9cd290b'
           },
           {
-            sum:  '0xde0b6b3a7640000'.hex.to_d / currency.base_factor,
+            amount:  '0xde0b6b3a7640000'.hex.to_d / currency.base_factor,
             rid:  '0xb3ebc7b5b631e8d145f383c8cd07f0f00dd56a30',
             txid: '0x66516a32e90c22a8104b3a3ec2d533efdfcfc004166aa05b555237a4aded99ad'
           }
