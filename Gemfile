@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 4.2'
 gem 'rails-i18n'
 gem 'responders', '~> 2.0'
 
@@ -54,7 +54,7 @@ gem 'browser', '~> 0.8.0'
 gem 'rbtree'
 gem 'liability-proof', '0.0.9'
 gem 'grape', '~> 1.0.1'
-gem 'grape-entity', '~> 0.7.1'
+gem 'grape-entity', '~> 0.5.2'
 gem 'grape-swagger', '~> 0.27.3'
 gem 'grape-swagger-ui', '~> 2.2.8'
 gem 'grape-swagger-entity', '~> 0.2'
