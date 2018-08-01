@@ -5,7 +5,7 @@ default: &default
   pool: 5
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASS'] %>
+  password: gicgicgic #<%= ENV['DATABASE_PASS'] %>
 
 development:
   <<: *default
