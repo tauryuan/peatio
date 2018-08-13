@@ -65,6 +65,7 @@ gem 'cash-addr', '~> 0.1.1', require: 'cash_addr'
 gem 'digest-sha3-patched', '~> 1.1', '>= 1.1.1'
 gem 'scout_apm', '~> 2.4', require: false
 gem 'rake', '~> 12.3', '>= 12.3.1'
+gem 'devise'
 
 group :development, :test do
   gem 'faker',        '~> 1.8'
