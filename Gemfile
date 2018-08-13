@@ -64,13 +64,7 @@ gem 'cash-addr', '~> 0.1.1', require: 'cash_addr'
 #gem 'digest-sha3', '~> 1.1.0'
 gem 'digest-sha3-patched', '~> 1.1', '>= 1.1.1'
 gem 'scout_apm', '~> 2.4', require: false
-<<<<<<< HEAD
 
-
-gem 'actionmailer'
-=======
-gem 'rake', '~> 12.3', '>= 12.3.1'
->>>>>>> parent of 2213023d... edit action mailer
 gem 'devise'
 gem 'bcrypt'
 
