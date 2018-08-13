@@ -62,5 +62,7 @@ module Peatio
 
     # Explicitly require "lib/peatio.rb".
     require_dependency 'peatio'
+
+    config.i18n.default_locale = :'zh-TW'
   end
 end

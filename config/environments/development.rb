@@ -39,5 +39,17 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+  config.action_mailer.raise_delivery_errors = false
+　# rails_delivery_errors 設定為 false 可讓寄信時的錯誤被忽略，如果要 debug 就設 true
+  config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
+  　# 這邊填入的網址須要注意一下，他必須是絕對網址，且會被預設為 mail 中的 resource link
+  　# 像我是用 devise 寄發驗證信，所以 confirmation_url(@resource, confirmation_token: @token)
+  　# 中的 @resource 就會是 http://localhost:3000
+  config.action_mailer.delivery_method = :smtp
+  　# delivery_method 有三種寄信方式 :test、:sendmail 和 :smtp
+  　# sendmail 須搭配 server 的 /user/bin/sendmail application
+  　# 而這邊我是透過 mailgun(and gmail) 的 smtp 協定作寄信
+  config.action_mailer.smtp_settings = config_for(:email).symbolize_keys
+  # config_for 會讀取 config 目錄下的 YAML 設定檔，由於 smtp_settings 需帶入 Symbol key
+　# 所以透過 .symbolize_keys 將 Hash 中的 String key 轉成 Symbol key
 end
