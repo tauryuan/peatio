@@ -31,6 +31,10 @@
           <a class="btn btn-primary btn-lg btn-block" href="/auth/<%= provider == 'google' ? 'google_oauth2' : provider %>" role="button">
             <small><%= t("header.sign_in_with_#{provider}") %></small>
           </a>
+          <a class="btn btn-primary btn-lg btn-block" href="http://localhost:3001/accounts/sign_up" role="button">
+            <small><%= t("sign up") %></small>
+          </a>
+
         <% end %>
       </div>
     <% else %>

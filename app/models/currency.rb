@@ -183,7 +183,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20180605104154
 #
 # Table name: currencies
 #
@@ -192,7 +192,7 @@ end
 #  type                 :string(30)       default("coin"), not null
 #  deposit_fee          :decimal(32, 16)  default(0.0), not null
 #  quick_withdraw_limit :decimal(32, 16)  default(0.0), not null
-#  withdraw_fee         :decimal(32, 16)  default(0.0), not null
+#  withdraw_fee         :decimal(7, 6)    default(0.0), not null
 #  options              :string(1000)     default({}), not null
 #  enabled              :boolean          default(TRUE), not null
 #  base_factor          :integer          default(1), not null

@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20180605104154) do
     t.string   "type",                 limit: 30,                             default: "coin", null: false
     t.decimal  "deposit_fee",                       precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "quick_withdraw_limit",              precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_fee",                      precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "withdraw_fee",                      precision: 7,  scale: 6,  default: 0.0,    null: false
     t.string   "options",              limit: 1000,                           default: "{}",   null: false
     t.boolean  "enabled",                                                     default: true,   null: false
     t.integer  "base_factor",          limit: 8,                              default: 1,      null: false

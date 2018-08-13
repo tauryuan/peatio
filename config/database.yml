@@ -6,7 +6,7 @@ default: &default
   host: <%= ENV['DATABASE_HOST'] || '127.0.0.1' %>
   port: 3306
   username: <%= ENV['DATABASE_USER'] || 'root' %>
-  password: <%= ENV['DATABASE_PASS'] %>
+  password: gicgicgic #<%= ENV['DATABASE_PASS'] %>
 
 development:
   <<: *default
