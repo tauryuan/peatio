@@ -20,6 +20,7 @@ end
 
 Peatio::Application.routes.draw do
 
+  devise_for :users
   root 'welcome#index'
 
   get '/signout' => 'sessions#destroy', :as => :signout

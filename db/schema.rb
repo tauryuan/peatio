@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605104154) do
+ActiveRecord::Schema.define(version: 20180813022359) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -207,6 +207,28 @@ ActiveRecord::Schema.define(version: 20180605104154) do
   add_index "trades", ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "encrypted_password",     limit: 255, default: "",    null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.integer  "level",                  limit: 1,   default: 0,     null: false
+    t.string   "sn",                     limit: 12,                  null: false
+    t.string   "email",                  limit: 255,                 null: false
+    t.boolean  "disabled",                           default: false, null: false
+    t.boolean  "api_disabled",                       default: false, null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  limit: 255,   null: false
