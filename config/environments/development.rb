@@ -41,12 +41,9 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
-  　# 這邊填入的網址須要注意一下，他必須是絕對網址，且會被預設為 mail 中的 resource link
-  　# 像我是用 devise 寄發驗證信，所以 confirmation_url(@resource, confirmation_token: @token)
-  　# 中的 @resource 就會是 http://localhost:3000
+
   config.action_mailer.delivery_method = :sendmail
-  　# delivery_method 有三種寄信方式 :test、:sendmail 和 :smtp
-  　# sendmail 須搭配 server 的 /user/bin/sendmail application
+
   　
 
 end
