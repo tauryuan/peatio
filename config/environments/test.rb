@@ -44,4 +44,5 @@ Rails.application.configure do
 
   # Allows to set session in functional specs.
   config.middleware.use RackSessionAccess::Middleware
+  
 end
