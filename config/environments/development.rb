@@ -39,6 +39,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+<<<<<<< HEAD
   config.action_mailer.raise_delivery_errors = false
 　# rails_delivery_errors 設定為 false 可讓寄信時的錯誤被忽略，如果要 debug 就設 true
   config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
@@ -60,4 +61,7 @@ Rails.application.configure do
   # config_for 會讀取 config 目錄下的 YAML 設定檔，由於 smtp_settings 需帶入 Symbol key
 　# 所以透過 .symbolize_keys 將 Hash 中的 String key 轉成 Symbol key
 >>>>>>> parent of 2213023d... edit action mailer
+=======
+  
+>>>>>>> parent of 1719da18... edit mail setting
 end
